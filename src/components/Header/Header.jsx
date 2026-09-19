@@ -9,7 +9,6 @@ import { format } from "date-fns";
 import {
   createSearchParams,
   useNavigate,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 
