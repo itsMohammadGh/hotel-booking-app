@@ -3,7 +3,7 @@ import Loader from "../Loader/Loader";
 import { useHotel } from "../../context/HotelsProvider";
 
 function Hotels() {
-  const { isLoading, hotels } = useHotel();
+  const { isLoading, hotels, currentHotel } = useHotel();
 
   if (isLoading) return <Loader />;
   return (
@@ -15,7 +15,9 @@ function Hotels() {
             key={item.id}
             to={`/hotels/${item.id}?lat=${item.latitude}&lng=${item.longitude}`}
           >
-            <div className="searchItem">
+            <div
+              className={`searchItem ${item.id === currentHotel?.id ? "current-hotel" : ""}`}
+            >
               <img src={item.thumbnail_url} alt={item.name} />
               <div className="searchItemDesc">
                 <p className="location">{item.smart_location}</p>
