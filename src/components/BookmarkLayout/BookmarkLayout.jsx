@@ -9,7 +9,7 @@ function BookmarkLayout() {
       <div className="sidebar">
         <Outlet />
       </div>
-      <Map markerlocation={[bookmarks]} />
+      <Map markerlocation={bookmarks} />
     </div>
   );
 }

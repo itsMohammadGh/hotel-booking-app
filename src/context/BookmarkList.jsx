@@ -7,7 +7,7 @@ const BookmarkContext = createContext();
 const BASE_URL = "http://localhost:5000";
 
 function BookmarkProvider({ children }) {
-  const [currentBookmark, setCurrentBookmark] = useState({});
+  const [currentBookmark, setCurrentBookmark] = useState(null);
   const [isLoadingCurrentBookmark, setIsLoadingCurrentBookmark] =
     useState(false);
   const { data: bookmarks, isLoading } = useFetch(`${BASE_URL}/bookmarks`);
@@ -15,9 +15,8 @@ function BookmarkProvider({ children }) {
   async function getBookmark(id) {
     setIsLoadingCurrentBookmark(true);
     try {
-      const { data } = await axios.get(`${BASE_URL}bookmarks/${id}`);
+      const { data } = await axios.get(`${BASE_URL}/bookmarks/${id}`);
       setCurrentBookmark(data);
-      setIsLoadingCurrentBookmark(false);
     } catch (error) {
       toast.error(error.message);
     } finally {
