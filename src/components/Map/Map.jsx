@@ -9,12 +9,11 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useGeoLocation from "../../Hooks/UseGeoLocation";
+import useUrlLocation from "../../Hooks/useUrlLocation";
 
 function Map({ markerlocation }) {
   const [mapCenter, setMapCenter] = useState([51, 3]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const lat = searchParams.get("lat");
-  const long = searchParams.get("lng");
+  const [lat, lng] = useUrlLocation();
   const {
     isLoading: isLoadingPosition,
     position: geoLoactionPosition,
@@ -22,12 +21,12 @@ function Map({ markerlocation }) {
   } = useGeoLocation();
 
   useEffect(() => {
-    if (lat && long) setMapCenter([lat, long]);
-  }, [lat, long]);
+    if (lat && lng) setMapCenter([lat, lng]);
+  }, [lat, lng]);
 
   useEffect(() => {
-    if (geoLoactionPosition?.lat && geoLoactionPosition?.long)
-      setMapCenter([geoLoactionPosition.lat, geoLoactionPosition.long]);
+    if (geoLoactionPosition?.lat && geoLoactionPosition?.lng)
+      setMapCenter([geoLoactionPosition.lat, geoLoactionPosition.lng]);
   }, [geoLoactionPosition]);
 
   return (
@@ -68,7 +67,8 @@ function ChangeCenter({ position }) {
 function DetectClick() {
   const navigate = useNavigate();
   useMapEvent({
-    click: (e) => navigate(`/bookmark/add?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
+    click: (e) =>
+      navigate(`/bookmark/add?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
   });
   return null;
 }
